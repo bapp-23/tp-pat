@@ -8,6 +8,7 @@ public class Token {
      * created (datetime)
      * last user at (datetime)
      * expires (datetime)
+     * active (bool)
      */
 
     public Token(){}

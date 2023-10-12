@@ -2,6 +2,8 @@ package ar.edu.utn.frc.backend.application.controller;
 
 import ar.edu.utn.frc.backend.application.ResponseHandler;
 import ar.edu.utn.frc.backend.domain.model.User;
+import ar.edu.utn.frc.backend.infrastructure.dao.TokenDao;
+import ar.edu.utn.frc.backend.repository.TokenRepository;
 import ar.edu.utn.frc.backend.service.TokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +18,8 @@ public class TokenController {
 
     private final TokenService service;
 
-    public TokenController(TokenService aService){
-        this.service = aService;
+    public TokenController(){
+        this.service = new TokenService(new TokenRepository(new TokenDao()));
     }
 
     @GetMapping("/")
@@ -30,7 +32,7 @@ public class TokenController {
         // se lo pasa al responseHandler...
         return ResponseHandler.generateResponse("OK", HttpStatus.OK, result);
 
-    };
+    }
 
     @PostMapping("/")
     public ResponseEntity<Object> postToken(){
