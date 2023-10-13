@@ -1,10 +1,13 @@
 package ar.edu.utn.frc.backend.application.controller;
 
 import ar.edu.utn.frc.backend.application.ResponseHandler;
+import ar.edu.utn.frc.backend.application.request.CreateTokenRequest;
+import ar.edu.utn.frc.backend.application.request.GetAllTokenRequest;
 import ar.edu.utn.frc.backend.domain.model.User;
-import ar.edu.utn.frc.backend.infrastructure.dao.TokenDao;
 import ar.edu.utn.frc.backend.repository.TokenRepository;
+import ar.edu.utn.frc.backend.service.ITokenService;
 import ar.edu.utn.frc.backend.service.TokenService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,18 +19,16 @@ import java.util.List;
 @RequestMapping("/api")
 public class TokenController {
 
-    private final TokenService service;
+    @Autowired
+    private ITokenService service;
 
-    public TokenController(){
-        this.service = new TokenService(new TokenRepository(new TokenDao()));
-    }
 
     @GetMapping("/")
-    public ResponseEntity<Object> getToken(User user){
+    public ResponseEntity<Object> getToken(@RequestBody GetAllTokenRequest request){
         // devuelve todos los token del usuario
 
         // arma la lista de los token...
-        var result = service.getAllTokens(user);
+        var result = service.getAllToken(request);
 
         // se lo pasa al responseHandler...
         return ResponseHandler.generateResponse("OK", HttpStatus.OK, result);
@@ -35,11 +36,13 @@ public class TokenController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> postToken(){
+    public ResponseEntity<Object> postToken(@RequestBody CreateTokenRequest model){
         // Crea un nuevo token
+        // recibe un nombre y el expire date
         //return service.generateToken();
-
-        return ResponseHandler.internalServerError();
+        var result = service.addToken(model);
+        //return ResponseHandler.internalServerError();
+        return ResponseHandler.generateResponse(result.guid(), HttpStatus.OK, result);
     }
 
     @DeleteMapping("/delete")

@@ -1,9 +1,10 @@
 package ar.edu.utn.frc.backend.repository;
 
 
-public interface IRepository {
+import ar.edu.utn.frc.backend.domain.model.Token;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    void save();
-    void getAll();
+public interface IRepository
+        extends JpaRepository<Token,Long> {
 
 }
