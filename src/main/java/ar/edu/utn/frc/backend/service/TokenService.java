@@ -2,6 +2,8 @@ package ar.edu.utn.frc.backend.service;
 
 import ar.edu.utn.frc.backend.domain.model.Token;
 import ar.edu.utn.frc.backend.domain.model.User;
+import ar.edu.utn.frc.backend.repository.IRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,7 +13,10 @@ import java.util.UUID;
 @Service
 public class TokenService implements IService{
 
-    public TokenService() {
+    IRepository repository;
+
+    public TokenService(@Qualifier("IRepository") IRepository repo) {
+        this.repository = repo;
     }
 
 

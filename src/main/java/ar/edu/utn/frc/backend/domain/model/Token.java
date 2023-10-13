@@ -1,11 +1,11 @@
 package ar.edu.utn.frc.backend.domain.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
+@Table(name = "t_token")
 public class Token {
 
     /**
@@ -17,6 +17,7 @@ public class Token {
      */
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     private String name;
     private String guid;
@@ -25,13 +26,23 @@ public class Token {
     private Date exprires;
     private boolean active;
 
-    public Token(String name, String guid, Date created, Date lastUserAt, Date exprires, boolean active) {
+    public Token(long id, String name, String guid, Date created, Date lastUserAt, Date exprires, boolean active) {
+        this.id = id;
         this.name = name;
         this.guid = guid;
         this.created = created;
         this.lastUserAt = lastUserAt;
         this.exprires = exprires;
         this.active = active;
+    }
+
+    public long id() {
+        return id;
+    }
+
+    public Token setId(long id) {
+        this.id = id;
+        return this;
     }
 
     public String name() {
