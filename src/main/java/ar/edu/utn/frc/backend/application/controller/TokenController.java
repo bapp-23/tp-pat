@@ -25,7 +25,7 @@ public class TokenController {
         // devuelve todos los token del usuario
 
         // arma la lista de los token...
-        var result = service.getAllTokens(user);
+        var result = service.getAllTokens("user");
 
         // se lo pasa al responseHandler...
         return ResponseHandler.generateResponse("OK", HttpStatus.OK, result);
